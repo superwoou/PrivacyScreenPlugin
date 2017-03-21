@@ -55,7 +55,9 @@ public class PrivacyScreenPlugin extends CordovaPlugin {
       this.activate();
     } else if("deactivate".equals(action)) {
       this.deactivate();
+    } else {
+      return false;
     }
-    return false;
+    return true;
   }
 }
