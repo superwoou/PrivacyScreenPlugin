@@ -28,10 +28,34 @@ import android.os.Bundle;
  */
 public class PrivacyScreenPlugin extends CordovaPlugin {
 
+  private void activate() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      Activity activity = this.cordova.getActivity();
+      activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+  }
+
+  private void deactivate() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      Activity activity = this.cordova.getActivity();
+      activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+  }
+
   @Override
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
+    this.activate();
+  }
+
+  @Override
+  public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
     Activity activity = this.cordova.getActivity();
-    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    if ("activate".equals(action)) {
+      this.activate();
+    } else if("deactivate".equals(action)) {
+      this.deactivate();
+    }
+    return false;
   }
 }
