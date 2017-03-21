@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Build;
 
 /**
  * This class sets the FLAG_SECURE flag on the window to make the app
