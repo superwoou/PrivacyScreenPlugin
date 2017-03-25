@@ -7,7 +7,7 @@
 
 
   <js-module src="www/PrivacyScreenPlugin.js" name="PrivacyScreenPlugin">
-      <clobbers target="PrivacyScreenPlugin" />
+      <clobbers target="cordova.plugins.PrivacyScreenPlugin" />
   </js-module>
 
 	<platform name="android">
