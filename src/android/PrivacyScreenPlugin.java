@@ -31,15 +31,35 @@ public class PrivacyScreenPlugin extends CordovaPlugin {
 
   private void activate() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-      Activity activity = this.cordova.getActivity();
-      activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+      final Activity activity = this.cordova.getActivity();
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          activity.runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+              activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            }
+          });
+        }
+      }).start();
     }
   }
 
   private void deactivate() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-      Activity activity = this.cordova.getActivity();
-      activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+      final Activity activity = this.cordova.getActivity();
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          activity.runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+              activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+            }
+          });
+        }
+      }).start();
     }
   }
 
@@ -51,7 +71,6 @@ public class PrivacyScreenPlugin extends CordovaPlugin {
 
   @Override
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-    Activity activity = this.cordova.getActivity();
     if ("activate".equals(action)) {
       this.activate();
     } else if("deactivate".equals(action)) {
